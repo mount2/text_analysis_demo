@@ -1,4 +1,3 @@
-from multiprocessing.reduction import duplicate
 import re
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
@@ -155,8 +154,7 @@ def articulation(res):
     return res 
 
 
-with open('sample.json') as json_file:
-    test = json.load(json_file)
+
 
 
 def text_anasyslis(test): 
@@ -168,8 +166,9 @@ def text_anasyslis(test):
     test= repetition(test)     
     return test 
 
-
-      
+with open('sample.json') as json_file:
+    test = json.load(json_file)
+test = text_anasyslis(test)
 display(test)
 
 
