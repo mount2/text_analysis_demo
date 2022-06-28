@@ -47,11 +47,8 @@ def preprocess(res):
     #with stemming
     text2 = [ps.stem(w) for w in text]
     res['text']  =  ' '.join(text)
-    for i in range(len(text)): 
-        res['result'][i]['word'] = text[i]
-
-    
-
+    # for i in range(len(text)): 
+    #     res['result'][i]['word'] = text[i]
     return res
 
 def check_duplication_in_list(word_list): 
