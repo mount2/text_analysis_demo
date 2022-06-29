@@ -78,8 +78,7 @@ def find_filler_and_hedging(res):
             else: 
                 res['filler'][res['result'][i]['word']] = [i]
         if res['result'][i]['word'] in hedging: 
-            if res['result'][i]['word'] in res['filler'].keys():
-
+            if res['result'][i]['word'] in res['hedging'].keys():
                 res['hedging'][res['result'][i]['word']].append(i)
             else: 
                 res['hedging'][res['result'][i]['word']] = [i]
@@ -163,7 +162,7 @@ def text_anasyslis(test):
     test= repetition(test)     
     return test 
 
-with open('sample.json') as json_file:
+with open('sample2.json') as json_file:
     test = json.load(json_file)
 test = text_anasyslis(test)
 display(test)
