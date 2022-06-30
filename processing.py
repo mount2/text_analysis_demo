@@ -238,7 +238,7 @@ def text_anasyslis(test):
     test = split_paragraph(test)
     return test 
 
-with open('/home/minhquan/Documents/Python/text_processing/text_analysis_demo/sample2.json') as json_file:
+with open('text_analysis_demo/sample2.json') as json_file:
     test = json.load(json_file)
 test = text_anasyslis(test)
 display(test)
