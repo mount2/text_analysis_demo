@@ -1,11 +1,12 @@
 import re
-from nltk.corpus import stopwords
+#from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
-stop_words = stopwords.words('english')
+from fastpunct import FastPunct
+#stop_words = stopwords.words('english')
 import json
-f = open('hedging.txt','r')
+f = open('/home/minhquan/Documents/Python/text_processing/text_analysis_demo/hedging.txt','r')
 hedging = [word.strip('\n') for word in list(f)]
 
 
@@ -73,7 +74,6 @@ def find_filler_and_hedging(res):
     for i in range(len(res['result'])): 
         if res['result'][i]['word'] in filler_words: 
             if res['result'][i]['word'] in res['filler'].keys():
-
                 res['filler'][res['result'][i]['word']].append(i)
             else: 
                 res['filler'][res['result'][i]['word']] = [i]
@@ -149,8 +149,80 @@ def articulation(res):
     
     return res 
 
+def word_speed(res):
+    for i in range(len(res['result'])): 
+        res['result'][i]['speak_time'] = res['result'][i]['end']-res['result'][i]['start']
+    
+    res['average_speaking_time'] = res['speaking_time']/len(res['result'])
+    return res 
+
+def spliting_sentences(res): 
+    sentence = ''
+    sentences = {}
+    sen_num = 1
+    sen_length = 0 
+    for i in range(len(res['result'])-1): 
+        sentence += res['result'][i]['word']+ ' '
+        sen_length+= 1
+        if res['result'][i]['stoptime']> res['average_speaking_time']*1.6 and sen_length>=3:
+            
+            sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
+            sentence = ' '
+            sen_length = 0 
+            sen_num += 1
+    sentence += res['result'][len(res['result'])-1]['word']
+    
+    sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
+    
+    res['sentences'] = sentences; 
+    return res 
+
+def beautify(res): 
+    sentences = []
+    for i in range(len(res['sentences'])):
+        sentences.append(res['sentences'][i+1]['text'])
+    fastpunct = FastPunct()
+    x = fastpunct.punct(sentences,correct=True)
+    for i in range(len(res['sentences'])):
+        res['sentences'][i+1]['text'] = x[i]
+    # x =fastpunct.punct([
+    #               'well i have equal rights for all except blacks asians hispanics jews gays women muslims',
+    #               'verybody is not a white man and i mean white white',
+    #               'know italians know polish just people from ireland england and scotland but only certain parts of scotland and ireland',
+    #               'just full blooded whites',
+    #                'not you know what not even white nobody gets any right'], correct=True)
+
+    #print(x)
+    return res
+
+def split_paragraph(res): 
+    paragraph = ''
+    paragraphs = []
+    time = 30 
+    i = 1
+    print(res['stop_time']+res['speaking_time'])
+    if time > res['stop_time']+res['speaking_time']:
+        res ['paragraphs'] = [res['text']]
+        return res
+
+    while time < res['stop_time']+res['speaking_time']: 
+        while res['sentences'][i]['end'] < time : 
+            paragraph += res['sentences'][i]['text']
+            i += 1 
+        
+        paragraphs.append(paragraph)
+        paragraph = ''
+        time += 30 
+    paragraphs.append(paragraph)
+    res['paragraphs'] = paragraphs
+    return res 
 
 
+
+    
+
+
+    
 
 
 def text_anasyslis(test): 
@@ -159,10 +231,14 @@ def text_anasyslis(test):
     test = speaking_duration(test)
     test = find_filler_and_hedging(test)
     test = articulation(test)
-    test= repetition(test)     
+    test= repetition(test)  
+    test = word_speed(test)   
+    test = spliting_sentences(test)
+    test = beautify(test)
+    test = split_paragraph(test)
     return test 
 
-with open('sample2.json') as json_file:
+with open('/home/minhquan/Documents/Python/text_processing/text_analysis_demo/sample2.json') as json_file:
     test = json.load(json_file)
 test = text_anasyslis(test)
 display(test)
