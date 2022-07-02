@@ -8,7 +8,9 @@ import pandas as pd
 #stop_words = stopwords.words('english')
 import json
 import pickle
+import time
 
+t1 = time.time()
 f = open('/home/minhquan/Documents/Python/text_processing/text_analysis_demo/hedging.txt','r')
 hedging = [word.strip('\n') for word in list(f)]
 
@@ -245,7 +247,7 @@ def beautify(res):
     text = ''
     for i in range(len(res['sentences'])):
         res['sentences'][i+1]['text'] = x[i]
-        text += x[i]
+        text +=' '+ x[i]
     res['text'] = text
     # x =fastpunct.punct([
     #               'well i have equal rights for all except blacks asians hispanics jews gays women muslims',
@@ -276,6 +278,9 @@ def split_paragraph(res):
         paragraphs.append(paragraph)
         paragraph = ''
         time += 30 
+    n = len(res['sentences'])+1
+    for k in range(i,n):
+        paragraph += res['sentences'][k]['text'] 
     paragraphs.append(paragraph)
     res['paragraphs'] = paragraphs
     return res 
@@ -315,9 +320,16 @@ def text_anasyslis(test,model):
     test = word_speed(test) 
     get_data(test)  
     df = create_data_frame(test)
+    t3 = time.time()
     test = split_senteces_with_model(test,model,df)
+    t4 = time.time()
+    print('period : ',t4-t3)
     test = beautify(test)
+    t5 = time.time()
+    print('fastpunct ',t5-t4)
     test = split_paragraph(test)
+    t4 = time.time()
+    
     return test 
 
 
@@ -329,12 +341,13 @@ with open('model_pickle','rb') as f :
 
 
 
-with open('sample.json') as json_file:
+with open('sample2.json') as json_file:
     test = json.load(json_file)
 test = text_anasyslis(test,model)
-display(test)
+#display(test)
+t2 = time.time()
 
-
+print('total time: ',t2-t1)
 
 
 
