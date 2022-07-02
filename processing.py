@@ -4,8 +4,11 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
 from fastpunct import FastPunct
+import pandas as pd 
 #stop_words = stopwords.words('english')
 import json
+import pickle
+
 f = open('/home/minhquan/Documents/Python/text_processing/text_analysis_demo/hedging.txt','r')
 hedging = [word.strip('\n') for word in list(f)]
 
@@ -154,9 +157,11 @@ def word_speed(res):
         res['result'][i]['speak_time'] = res['result'][i]['end']-res['result'][i]['start']
     
     res['average_speaking_time'] = res['speaking_time']/len(res['result'])
+    res['average_stop_time'] = res['stop_time'] / (len(res['result'])-1) 
     return res 
 
 def spliting_sentences(res): 
+    #splitting senteces by simple algorithm relate to the stop time of the speaker 
     sentence = ''
     sentences = {}
     sen_num = 1
@@ -164,7 +169,7 @@ def spliting_sentences(res):
     for i in range(len(res['result'])-1): 
         sentence += res['result'][i]['word']+ ' '
         sen_length+= 1
-        if res['result'][i]['stoptime']> res['average_speaking_time']*1.6 and sen_length>=3:
+        if res['result'][i]['stoptime']> res['average_stop_time']*6 and sen_length>=3:
             
             sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
             sentence = ' '
@@ -177,14 +182,71 @@ def spliting_sentences(res):
     res['sentences'] = sentences; 
     return res 
 
+def create_data_frame(res): 
+    wordlen=[]
+    word = []
+    period = []
+    speak_time = []
+    stop_time = []
+    for i in range(len(res['result'])-1): 
+        word.append(res['result'][i]['word'])
+        wordlen.append(len(res['result'][i]['word']))
+        period.append(0)
+        speak_time.append(res['result'][i]['speak_time'])
+        stop_time.append(res['result'][i]['stoptime'])
+    
+    df = pd.DataFrame({
+            'word': word ,
+            'wordlen': wordlen, 
+            'speak_time' : speak_time,
+            'stop_time' : stop_time,
+            'period': period 
+    })
+     
+    return df
+
+
+def split_senteces_with_model(res,model,df):
+    x_col = ['wordlen','speak_time','stop_time']
+
+    x_test = df[x_col].to_numpy() 
+
+    position = model.predict(x_test)
+
+    #splitting senteces by simple algorithm relate to the stop time of the speaker 
+    sentence = ''
+    sentences = {}
+    sen_num = 1
+    sen_length = 0 
+    for i in range(len(res['result'])-1): 
+        sentence += res['result'][i]['word']+ ' '
+        sen_length+= 1
+        if position[i]:
+            
+            sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
+            sentence = ' '
+            sen_length = 0 
+            sen_num += 1
+    sentence += res['result'][len(res['result'])-1]['word']
+    
+    sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
+    
+    res['sentences'] = sentences; 
+    return res 
+    
+
+
 def beautify(res): 
     sentences = []
     for i in range(len(res['sentences'])):
         sentences.append(res['sentences'][i+1]['text'])
     fastpunct = FastPunct()
     x = fastpunct.punct(sentences,correct=True)
+    text = ''
     for i in range(len(res['sentences'])):
         res['sentences'][i+1]['text'] = x[i]
+        text += x[i]
+    res['text'] = text
     # x =fastpunct.punct([
     #               'well i have equal rights for all except blacks asians hispanics jews gays women muslims',
     #               'verybody is not a white man and i mean white white',
@@ -201,6 +263,7 @@ def split_paragraph(res):
     time = 30 
     i = 1
     print(res['stop_time']+res['speaking_time'])
+    # one paragraph will not longer than 30 sec
     if time > res['stop_time']+res['speaking_time']:
         res ['paragraphs'] = [res['text']]
         return res
@@ -219,28 +282,56 @@ def split_paragraph(res):
 
 
 
+def get_data(res): 
+    wordlen=[]
+    word = []
+    period = []
+    speak_time = []
+    stop_time = []
+    for i in range(len(res['result'])-1): 
+        word.append(res['result'][i]['word'])
+        wordlen.append(len(res['result'][i]['word']))
+        period.append(0)
+        speak_time.append(res['result'][i]['speak_time'])
+        stop_time.append(res['result'][i]['stoptime'])
     
+    df = pd.DataFrame({
+            'word': word ,
+            'wordlen': wordlen, 
+            'speak_time' : speak_time,
+            'stop_time' : stop_time,
+            'period': period 
+    })
+    df.to_csv('data3.csv',index= False) 
+    return 
 
-
-    
-
-
-def text_anasyslis(test): 
+def text_anasyslis(test,model): 
     # adding analysis to the input dictionary 
     test = preprocess(test)
     test = speaking_duration(test)
     test = find_filler_and_hedging(test)
     test = articulation(test)
     test= repetition(test)  
-    test = word_speed(test)   
-    test = spliting_sentences(test)
+    test = word_speed(test) 
+    get_data(test)  
+    df = create_data_frame(test)
+    test = split_senteces_with_model(test,model,df)
     test = beautify(test)
     test = split_paragraph(test)
     return test 
 
-with open('text_analysis_demo/sample2.json') as json_file:
+
+
+
+
+with open('model_pickle','rb') as f : 
+    model = pickle.load(f)
+
+
+
+with open('sample.json') as json_file:
     test = json.load(json_file)
-test = text_anasyslis(test)
+test = text_anasyslis(test,model)
 display(test)
 
 
