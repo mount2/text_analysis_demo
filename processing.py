@@ -11,7 +11,7 @@ import pickle
 import time
 
 t1 = time.time()
-f = open('/home/minhquan/Documents/Python/text_processing/text_analysis_demo/hedging.txt','r')
+f = open(r'D:\Document\Python\text_processing\text_analysis_demo\hedging.txt','r')
 hedging = [word.strip('\n') for word in list(f)]
 
 
