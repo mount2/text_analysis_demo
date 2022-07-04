@@ -1,0 +1,366 @@
+{
+    "result": [
+        {
+            "conf": 1.0,
+            "end": 0.72,
+            "start": 0.21,
+            "word": "haha"
+        },
+        {
+            "conf": 0.537454,
+            "end": 1.44,
+            "start": 1.29,
+            "word": "i"
+        },
+        {
+            "conf": 0.537454,
+            "end": 1.56,
+            "start": 1.44,
+            "word": "am"
+        },
+        {
+            "conf": 1.0,
+            "end": 2.22,
+            "start": 1.56,
+            "word": "interested"
+        },
+        {
+            "conf": 1.0,
+            "end": 2.432189,
+            "start": 2.25,
+            "word": "in"
+        },
+        {
+            "conf": 0.801859,
+            "end": 2.55,
+            "start": 2.432189,
+            "word": "and"
+        },
+        {
+            "conf": 0.473173,
+            "end": 2.945728,
+            "start": 2.55,
+            "word": "railing"
+        },
+        {
+            "conf": 0.588273,
+            "end": 3.05721,
+            "start": 2.945728,
+            "word": "in"
+        },
+        {
+            "conf": 0.926048,
+            "end": 3.3,
+            "start": 3.05721,
+            "word": "your"
+        },
+        {
+            "conf": 1.0,
+            "end": 3.63,
+            "start": 3.3,
+            "word": "m"
+        },
+        {
+            "conf": 1.0,
+            "end": 3.84,
+            "start": 3.63,
+            "word": "b"
+        },
+        {
+            "conf": 1.0,
+            "end": 4.14,
+            "start": 3.84,
+            "word": "a"
+        },
+        {
+            "conf": 1.0,
+            "end": 4.77,
+            "start": 4.14,
+            "word": "program"
+        },
+        {
+            "conf": 1.0,
+            "end": 5.4,
+            "start": 5.22,
+            "word": "could"
+        },
+        {
+            "conf": 1.0,
+            "end": 5.46,
+            "start": 5.4,
+            "word": "you"
+        },
+        {
+            "conf": 1.0,
+            "end": 5.61,
+            "start": 5.46,
+            "word": "give"
+        },
+        {
+            "conf": 1.0,
+            "end": 5.73,
+            "start": 5.61,
+            "word": "me"
+        },
+        {
+            "conf": 1.0,
+            "end": 5.91,
+            "start": 5.73,
+            "word": "some"
+        },
+        {
+            "conf": 1.0,
+            "end": 6.63,
+            "start": 5.91,
+            "word": "information"
+        },
+        {
+            "conf": 1.0,
+            "end": 7.14,
+            "start": 6.63,
+            "word": "please"
+        },
+        {
+            "conf": 0.547132,
+            "end": 7.77,
+            "start": 7.660244,
+            "word": "of"
+        },
+        {
+            "conf": 0.767423,
+            "end": 8.28,
+            "start": 7.77,
+            "word": "course"
+        },
+        {
+            "conf": 1.0,
+            "end": 9.15,
+            "start": 9.03,
+            "word": "i'll"
+        },
+        {
+            "conf": 1.0,
+            "end": 9.33,
+            "start": 9.15,
+            "word": "take"
+        },
+        {
+            "conf": 1.0,
+            "end": 9.39,
+            "start": 9.33,
+            "word": "a"
+        },
+        {
+            "conf": 1.0,
+            "end": 9.6,
+            "start": 9.39,
+            "word": "few"
+        },
+        {
+            "conf": 1.0,
+            "end": 10.08,
+            "start": 9.6,
+            "word": "details"
+        },
+        {
+            "conf": 1.0,
+            "end": 10.41,
+            "start": 10.08,
+            "word": "first"
+        },
+        {
+            "conf": 1.0,
+            "end": 10.5,
+            "start": 10.41,
+            "word": "of"
+        },
+        {
+            "conf": 1.0,
+            "end": 10.8,
+            "start": 10.5,
+            "word": "all"
+        },
+        {
+            "conf": 0.659256,
+            "end": 10.98,
+            "start": 10.8,
+            "word": "and"
+        },
+        {
+            "conf": 0.659256,
+            "end": 11.07,
+            "start": 10.98,
+            "word": "i'll"
+        },
+        {
+            "conf": 1.0,
+            "end": 11.28,
+            "start": 11.080223,
+            "word": "give"
+        },
+        {
+            "conf": 1.0,
+            "end": 11.4,
+            "start": 11.28,
+            "word": "you"
+        },
+        {
+            "conf": 1.0,
+            "end": 11.43,
+            "start": 11.4,
+            "word": "a"
+        },
+        {
+            "conf": 1.0,
+            "end": 11.79,
+            "start": 11.46,
+            "word": "copy"
+        },
+        {
+            "conf": 1.0,
+            "end": 11.91,
+            "start": 11.79,
+            "word": "of"
+        },
+        {
+            "conf": 0.513983,
+            "end": 12.06,
+            "start": 11.91,
+            "word": "our"
+        },
+        {
+            "conf": 1.0,
+            "end": 12.78,
+            "start": 12.06,
+            "word": "prospectus"
+        },
+        {
+            "conf": 1.0,
+            "end": 13.59,
+            "start": 13.44,
+            "word": "oh"
+        },
+        {
+            "conf": 1.0,
+            "end": 13.89,
+            "start": 13.59,
+            "word": "that's"
+        },
+        {
+            "conf": 0.726904,
+            "end": 14.37,
+            "start": 13.89,
+            "word": "okay"
+        },
+        {
+            "conf": 1.0,
+            "end": 14.7,
+            "start": 14.52,
+            "word": "i"
+        },
+        {
+            "conf": 1.0,
+            "end": 15.03,
+            "start": 14.7,
+            "word": "already"
+        },
+        {
+            "conf": 1.0,
+            "end": 15.21,
+            "start": 15.03,
+            "word": "have"
+        },
+        {
+            "conf": 0.882676,
+            "end": 15.42,
+            "start": 15.21,
+            "word": "one"
+        },
+        {
+            "conf": 1.0,
+            "end": 15.78,
+            "start": 15.42,
+            "word": "here"
+        },
+        {
+            "conf": 1.0,
+            "end": 16.83,
+            "start": 16.65,
+            "word": "i've"
+        },
+        {
+            "conf": 1.0,
+            "end": 17.1,
+            "start": 16.83,
+            "word": "been"
+        },
+        {
+            "conf": 1.0,
+            "end": 17.76,
+            "start": 17.1,
+            "word": "researching"
+        },
+        {
+            "conf": 1.0,
+            "end": 17.910778,
+            "start": 17.76,
+            "word": "the"
+        },
+        {
+            "conf": 0.710954,
+            "end": 18.028949,
+            "start": 17.910778,
+            "word": "and"
+        },
+        {
+            "conf": 0.640627,
+            "end": 18.213234,
+            "start": 18.028949,
+            "word": "be"
+        },
+        {
+            "conf": 0.66187,
+            "end": 18.3,
+            "start": 18.213234,
+            "word": "a"
+        },
+        {
+            "conf": 1.0,
+            "end": 18.84,
+            "start": 18.314815,
+            "word": "courses"
+        },
+        {
+            "conf": 1.0,
+            "end": 18.93,
+            "start": 18.84,
+            "word": "in"
+        },
+        {
+            "conf": 1.0,
+            "end": 19.02,
+            "start": 18.93,
+            "word": "the"
+        },
+        {
+            "conf": 1.0,
+            "end": 19.38,
+            "start": 19.02,
+            "word": "local"
+        },
+        {
+            "conf": 0.719409,
+            "end": 19.83,
+            "start": 19.38,
+            "word": "area"
+        },
+        {
+            "conf": 0.566742,
+            "end": 20.13,
+            "start": 19.8507,
+            "word": "sale"
+        }
+    ],
+    "text": "haha i am interested in and railing in your m b a program could you give me some information please of course i'll take a few details first of all and i'll give you a copy of our prospectus oh that's okay i already have one here i've been researching the and be a courses in the local area sale",
+    "directory": "/content/recording1.wav"
+}
