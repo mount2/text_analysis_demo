@@ -186,6 +186,7 @@ def spliting_sentences(res):
     return res 
 
 def create_data_frame(res): 
+    # create data frame as a input for the model 
     wordlen=[]
     word = []
     period = []
@@ -242,6 +243,7 @@ def split_senteces_with_model(res,df):
 
 
 def adding_comma_and_split_senteces_with_model(res,df):
+    # open saved model to detect comma and period in a paragraph.
     with open('model_predict_comma_and_period','rb') as f : 
         model = pickle.load(f)
 
@@ -368,9 +370,8 @@ def text_analysis(test):
     test = articulation(test)
     test= repetition(test)  
     test = word_speed(test) 
-    get_data(test)  
     df = create_data_frame(test)
-    
+    test = split_senteces_with_model(test,df)
     test = beautify(test)
     test = split_paragraph(test)
     test = get_key_word(test)
@@ -384,9 +385,8 @@ def text_analysis_2 (test):
     test = speaking_duration(test)
     test = find_filler_and_hedging(test)
     test = articulation(test)
-    test= repetition(test)  
+    test=  repetition(test)  
     test = word_speed(test) 
-    get_data(test)  
     df = create_data_frame(test)
     test = adding_comma_and_split_senteces_with_model(test,df)
     test = split_paragraph(test)
@@ -401,7 +401,7 @@ with open('model_predict_comma_and_period','rb') as f :
 
 
 
-with open('sample3.json') as json_file:
+with open('data/sample3.json') as json_file:
     test = json.load(json_file)
 test = text_analysis_2(test)
 display(test)
