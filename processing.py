@@ -9,6 +9,7 @@ import pandas as pd
 import json
 import pickle
 import time
+from keybert import KeyBERT
 
 t1 = time.time()
 f = open(r'D:\Document\Python\text_processing\text_analysis_demo\hedging.txt','r')
@@ -285,7 +286,12 @@ def split_paragraph(res):
     res['paragraphs'] = paragraphs
     return res 
 
-
+def get_key_word(res): 
+    kw_model = KeyBERT()
+    doc = res['text']
+    keywords = kw_model.extract_keywords(doc, keyphrase_ngram_range=(1, 2), stop_words=None)
+    res['keys_word'] = keywords
+    return res
 
 def get_data(res): 
     wordlen=[]
@@ -320,15 +326,10 @@ def text_anasyslis(test,model):
     test = word_speed(test) 
     get_data(test)  
     df = create_data_frame(test)
-    t3 = time.time()
     test = split_senteces_with_model(test,model,df)
-    t4 = time.time()
-    print('period : ',t4-t3)
     test = beautify(test)
-    t5 = time.time()
-    print('fastpunct ',t5-t4)
     test = split_paragraph(test)
-    t4 = time.time()
+    test = get_key_word(test)
     
     return test 
 
@@ -341,10 +342,10 @@ with open('model_pickle','rb') as f :
 
 
 
-with open('sample2.json') as json_file:
+with open('sample1.json') as json_file:
     test = json.load(json_file)
 test = text_anasyslis(test,model)
-#display(test)
+display(test)
 t2 = time.time()
 
 print('total time: ',t2-t1)
