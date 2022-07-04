@@ -209,7 +209,10 @@ def create_data_frame(res):
     return df
 
 
-def split_senteces_with_model(res,model,df):
+def split_senteces_with_model(res,df):
+    with open('model_pickle','rb') as f : 
+        model = pickle.load(f)
+
     x_col = ['wordlen','speak_time','stop_time']
 
     x_test = df[x_col].to_numpy() 
@@ -236,6 +239,46 @@ def split_senteces_with_model(res,model,df):
     
     res['sentences'] = sentences; 
     return res 
+
+
+def adding_comma_and_split_senteces_with_model(res,df):
+    with open('model_predict_comma_and_period','rb') as f : 
+        model = pickle.load(f)
+
+    x_col = ['wordlen','speak_time','stop_time']
+
+    x_test = df[x_col].to_numpy() 
+
+    position = model.predict(x_test)
+
+    #splitting senteces by simple algorithm relate to the stop time of the speaker 
+    sentence = ''
+    sentences = {}
+    sen_num = 1
+    sen_length = 0 
+    res['text'] = ''
+    for i in range(len(res['result'])-1): 
+        if sen_length == 0 : 
+            res['result'][i]['word'] = res['result'][i]['word'][0].upper() + res['result'][i]['word'][1:]
+        sen_length+= 1
+        if position[i]==2.0:
+            sentence += res['result'][i]['word']+ '. '
+            print(sentence)
+            sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
+            res['text'] += sentence
+            sentence = ''
+            sen_length = 0 
+            sen_num += 1
+        elif position[i] == 1.0 : 
+            sentence += res['result'][i]['word']+ ', '
+        else : 
+            sentence += res['result'][i]['word']+ ' '
+    sentence += res['result'][len(res['result'])-1]['word']+ '. '
+    res['text'] += sentence
+    sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
+    
+    res['sentences'] = sentences; 
+    return res
     
 
 
@@ -287,6 +330,7 @@ def split_paragraph(res):
     return res 
 
 def get_key_word(res): 
+    # get key words from text
     kw_model = KeyBERT()
     doc = res['text']
     keywords = kw_model.extract_keywords(doc, keyphrase_ngram_range=(1, 2), stop_words=None)
@@ -316,7 +360,7 @@ def get_data(res):
     df.to_csv('data3.csv',index= False) 
     return 
 
-def text_anasyslis(test,model): 
+def text_analysis(test): 
     # adding analysis to the input dictionary 
     test = preprocess(test)
     test = speaking_duration(test)
@@ -326,7 +370,7 @@ def text_anasyslis(test,model):
     test = word_speed(test) 
     get_data(test)  
     df = create_data_frame(test)
-    test = split_senteces_with_model(test,model,df)
+    
     test = beautify(test)
     test = split_paragraph(test)
     test = get_key_word(test)
@@ -334,17 +378,32 @@ def text_anasyslis(test,model):
     return test 
 
 
+def text_analysis_2 (test): 
+    # adding analysis to the input dictionary 
+    test = preprocess(test)
+    test = speaking_duration(test)
+    test = find_filler_and_hedging(test)
+    test = articulation(test)
+    test= repetition(test)  
+    test = word_speed(test) 
+    get_data(test)  
+    df = create_data_frame(test)
+    test = adding_comma_and_split_senteces_with_model(test,df)
+    test = split_paragraph(test)
+    test = get_key_word(test)
+    
+    return test 
 
 
 
-with open('model_pickle','rb') as f : 
+with open('model_predict_comma_and_period','rb') as f : 
     model = pickle.load(f)
 
 
 
-with open('sample1.json') as json_file:
+with open('sample3.json') as json_file:
     test = json.load(json_file)
-test = text_anasyslis(test,model)
+test = text_analysis_2(test)
 display(test)
 t2 = time.time()
 
