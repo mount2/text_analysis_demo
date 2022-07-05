@@ -7,3 +7,4 @@ scikit-learn==1.1.1
 tokenizers==0.12.1
 nlprule
 keybert
+pickle
