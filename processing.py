@@ -24,6 +24,7 @@ filler_words = ['well', "hmm", "Um", "er", "uh", "like", "actually", "basically"
                 "or something", "Okay", "so", "Right", "mhm", "uh", "huh"]
 
 def preprocess(res):
+    #change i to I 
     pattern = r'( i((?=\s)|(?=\')))'
     text = re.sub(pattern,' I',res['text'])
     res['text'] = text
@@ -257,6 +258,7 @@ def adding_comma_and_split_senteces_with_model(res,df):
     return res
     
 def grammar_check(res): 
+    #check for grammar error and suggest the solution 
     tokenizer = Tokenizer.load("en")
     rules = Rules.load("en", tokenizer)
     suggests = rules.suggest(res['text'])
@@ -274,6 +276,7 @@ def grammar_check(res):
 
 
 def beautify(res): 
+    # no longer use because take too long to respond 
     sentences = []
     for i in range(len(res['sentences'])):
         sentences.append(res['sentences'][i+1]['text'])
