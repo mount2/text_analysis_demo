@@ -10,9 +10,11 @@ import json
 import pickle
 import time
 from keybert import KeyBERT
+from nlprule import Tokenizer, Rules
+
 
 t1 = time.time()
-f = open(r'D:\Document\Python\text_processing\text_analysis_demo\hedging.txt','r')
+f = open(r'hedging.txt','r')
 hedging = [word.strip('\n') for word in list(f)]
 
 
@@ -22,40 +24,12 @@ filler_words = ['well', "hmm", "Um", "er", "uh", "like", "actually", "basically"
                 "or something", "Okay", "so", "Right", "mhm", "uh", "huh"]
 
 def preprocess(res):
-    # preprocess text and change 'i' to 'I'
-    text = res['text']
-    ps = PorterStemmer()
-    # Remove non-alphabetic and non-space characters
-    pattern = r"[^a-zA-Z\s]"
-    text = re.sub(pattern=pattern, string=text, repl=" ")
-
-    # Replace all spaces into whitespace
-    pattern = r"\s"
-    text = re.sub(pattern=pattern, string=text, repl=" ")
-
-    # Ensure only one whitespace between every two tokens
-    text = " ".join(text.split())
-
-    # Lowercase all characters
-    text = text.lower()
-
-    # Tokenise
-    text = text.split()
-
-    #
-    text = [word.upper() if word == 'i' else word for word in text]
-    # Remove stopwords 
-    #text = list(filter(lambda x: x not in stop_words, text))
-
-
-    # Remove single-character tokens
-    #text = list(filter(lambda x: len(x) > 1, text))
-
-    #with stemming
-    text2 = [ps.stem(w) for w in text]
-    res['text']  =  ' '.join(text)
-    # for i in range(len(text)): 
-    #     res['result'][i]['word'] = text[i]
+    pattern = r'( i((?=\s)|(?=\')))'
+    text = re.sub(pattern,' I',res['text'])
+    res['text'] = text
+    words = text.split(' ')
+    for a,b in zip(words,res['result']): 
+        b['word'] = a
     return res
 
 def check_duplication_in_list(word_list): 
@@ -282,6 +256,21 @@ def adding_comma_and_split_senteces_with_model(res,df):
     res['sentences'] = sentences; 
     return res
     
+def grammar_check(res): 
+    tokenizer = Tokenizer.load("en")
+    rules = Rules.load("en", tokenizer)
+    suggests = rules.suggest(res['text'])
+    res['suggestion'] = []
+    for s in suggests: 
+        suggestion = {
+            'start' : s.start,
+            'end'   : s.end , 
+            'replacements' : s.replacements, 
+            'source' : s.source , 
+            'message': s.message 
+        }
+        res['suggestion'].append(suggestion)
+    return res 
 
 
 def beautify(res): 
@@ -330,6 +319,8 @@ def split_paragraph(res):
     paragraphs.append(paragraph)
     res['paragraphs'] = paragraphs
     return res 
+
+
 
 def get_key_word(res): 
     # get key words from text
@@ -390,6 +381,7 @@ def text_analysis_2 (test):
     df = create_data_frame(test)
     test = adding_comma_and_split_senteces_with_model(test,df)
     test = split_paragraph(test)
+    test = grammar_check(test)
     test = get_key_word(test)
     
     return test 
@@ -404,9 +396,9 @@ with open('model_predict_comma_and_period','rb') as f :
 with open('data/sample3.json') as json_file:
     test = json.load(json_file)
 test = text_analysis_2(test)
-display(test)
+display(test['suggestion'])
 t2 = time.time()
-
+print(test['text'][138:150])
 print('total time: ',t2-t1)
 
 
