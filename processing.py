@@ -396,9 +396,8 @@ with open('model_predict_comma_and_period','rb') as f :
 with open('data/sample3.json') as json_file:
     test = json.load(json_file)
 test = text_analysis_2(test)
-display(test['suggestion'])
+#display(test['suggestion'])
 t2 = time.time()
-print(test['text'][138:150])
 print('total time: ',t2-t1)
 
 
