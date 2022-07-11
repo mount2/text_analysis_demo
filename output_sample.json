@@ -1,0 +1,584 @@
+{
+    "result": [
+        {
+            "conf": 1.0,
+            "end": 0.72,
+            "start": 0.21,
+            "word": "Haha",
+            "stoptime": 0.5700000000000001,
+            "speak_time": 0.51
+        },
+        {
+            "conf": 0.537454,
+            "end": 1.44,
+            "start": 1.29,
+            "word": "I",
+            "stoptime": 0.0,
+            "speak_time": 0.1499999999999999
+        },
+        {
+            "conf": 0.537454,
+            "end": 1.56,
+            "start": 1.44,
+            "word": "am",
+            "stoptime": 0.0,
+            "speak_time": 0.1200000000000001
+        },
+        {
+            "conf": 1.0,
+            "end": 2.22,
+            "start": 1.56,
+            "word": "interested",
+            "stoptime": 0.029999999999999805,
+            "speak_time": 0.6600000000000001
+        },
+        {
+            "conf": 1.0,
+            "end": 2.432189,
+            "start": 2.25,
+            "word": "in",
+            "stoptime": 0.0,
+            "speak_time": 0.18218900000000016
+        },
+        {
+            "conf": 0.801859,
+            "end": 2.55,
+            "start": 2.432189,
+            "word": "and",
+            "stoptime": 0.0,
+            "speak_time": 0.11781099999999967
+        },
+        {
+            "conf": 0.473173,
+            "end": 2.945728,
+            "start": 2.55,
+            "word": "railing",
+            "stoptime": 0.0,
+            "speak_time": 0.3957280000000001
+        },
+        {
+            "conf": 0.588273,
+            "end": 3.05721,
+            "start": 2.945728,
+            "word": "in",
+            "stoptime": 0.0,
+            "speak_time": 0.11148200000000008
+        },
+        {
+            "conf": 0.926048,
+            "end": 3.3,
+            "start": 3.05721,
+            "word": "your",
+            "stoptime": 0.0,
+            "speak_time": 0.24278999999999984
+        },
+        {
+            "conf": 1.0,
+            "end": 3.63,
+            "start": 3.3,
+            "word": "m",
+            "stoptime": 0.0,
+            "speak_time": 0.33000000000000007
+        },
+        {
+            "conf": 1.0,
+            "end": 3.84,
+            "start": 3.63,
+            "word": "b",
+            "stoptime": 0.0,
+            "speak_time": 0.20999999999999996
+        },
+        {
+            "conf": 1.0,
+            "end": 4.14,
+            "start": 3.84,
+            "word": "a",
+            "stoptime": 0.0,
+            "speak_time": 0.2999999999999998
+        },
+        {
+            "conf": 1.0,
+            "end": 4.77,
+            "start": 4.14,
+            "word": "program",
+            "stoptime": 0.4500000000000002,
+            "speak_time": 0.6299999999999999
+        },
+        {
+            "conf": 1.0,
+            "end": 5.4,
+            "start": 5.22,
+            "word": "could",
+            "stoptime": 0.0,
+            "speak_time": 0.1800000000000006
+        },
+        {
+            "conf": 1.0,
+            "end": 5.46,
+            "start": 5.4,
+            "word": "you",
+            "stoptime": 0.0,
+            "speak_time": 0.05999999999999961
+        },
+        {
+            "conf": 1.0,
+            "end": 5.61,
+            "start": 5.46,
+            "word": "give",
+            "stoptime": 0.0,
+            "speak_time": 0.15000000000000036
+        },
+        {
+            "conf": 1.0,
+            "end": 5.73,
+            "start": 5.61,
+            "word": "me",
+            "stoptime": 0.0,
+            "speak_time": 0.1200000000000001
+        },
+        {
+            "conf": 1.0,
+            "end": 5.91,
+            "start": 5.73,
+            "word": "some",
+            "stoptime": 0.0,
+            "speak_time": 0.17999999999999972
+        },
+        {
+            "conf": 1.0,
+            "end": 6.63,
+            "start": 5.91,
+            "word": "information",
+            "stoptime": 0.0,
+            "speak_time": 0.7199999999999998
+        },
+        {
+            "conf": 1.0,
+            "end": 7.14,
+            "start": 6.63,
+            "word": "please",
+            "stoptime": 0.5202439999999999,
+            "speak_time": 0.5099999999999998
+        },
+        {
+            "conf": 0.547132,
+            "end": 7.77,
+            "start": 7.660244,
+            "word": "Of",
+            "stoptime": 0.0,
+            "speak_time": 0.10975599999999996
+        },
+        {
+            "conf": 0.767423,
+            "end": 8.28,
+            "start": 7.77,
+            "word": "course",
+            "stoptime": 0.75,
+            "speak_time": 0.5099999999999998
+        },
+        {
+            "conf": 1.0,
+            "end": 9.15,
+            "start": 9.03,
+            "word": "I'll",
+            "stoptime": 0.0,
+            "speak_time": 0.120000000000001
+        },
+        {
+            "conf": 1.0,
+            "end": 9.33,
+            "start": 9.15,
+            "word": "take",
+            "stoptime": 0.0,
+            "speak_time": 0.17999999999999972
+        },
+        {
+            "conf": 1.0,
+            "end": 9.39,
+            "start": 9.33,
+            "word": "a",
+            "stoptime": 0.0,
+            "speak_time": 0.0600000000000005
+        },
+        {
+            "conf": 1.0,
+            "end": 9.6,
+            "start": 9.39,
+            "word": "few",
+            "stoptime": 0.0,
+            "speak_time": 0.20999999999999908
+        },
+        {
+            "conf": 1.0,
+            "end": 10.08,
+            "start": 9.6,
+            "word": "details",
+            "stoptime": 0.0,
+            "speak_time": 0.4800000000000004
+        },
+        {
+            "conf": 1.0,
+            "end": 10.41,
+            "start": 10.08,
+            "word": "first",
+            "stoptime": 0.0,
+            "speak_time": 0.33000000000000007
+        },
+        {
+            "conf": 1.0,
+            "end": 10.5,
+            "start": 10.41,
+            "word": "of",
+            "stoptime": 0.0,
+            "speak_time": 0.08999999999999986
+        },
+        {
+            "conf": 1.0,
+            "end": 10.8,
+            "start": 10.5,
+            "word": "all",
+            "stoptime": 0.0,
+            "speak_time": 0.3000000000000007
+        },
+        {
+            "conf": 0.659256,
+            "end": 10.98,
+            "start": 10.8,
+            "word": "and",
+            "stoptime": 0.0,
+            "speak_time": 0.17999999999999972
+        },
+        {
+            "conf": 0.659256,
+            "end": 11.07,
+            "start": 10.98,
+            "word": "I'll",
+            "stoptime": 0.010222999999999871,
+            "speak_time": 0.08999999999999986
+        },
+        {
+            "conf": 1.0,
+            "end": 11.28,
+            "start": 11.080223,
+            "word": "give",
+            "stoptime": 0.0,
+            "speak_time": 0.1997769999999992
+        },
+        {
+            "conf": 1.0,
+            "end": 11.4,
+            "start": 11.28,
+            "word": "you",
+            "stoptime": 0.0,
+            "speak_time": 0.120000000000001
+        },
+        {
+            "conf": 1.0,
+            "end": 11.43,
+            "start": 11.4,
+            "word": "a",
+            "stoptime": 0.030000000000001137,
+            "speak_time": 0.02999999999999936
+        },
+        {
+            "conf": 1.0,
+            "end": 11.79,
+            "start": 11.46,
+            "word": "copy",
+            "stoptime": 0.0,
+            "speak_time": 0.3299999999999983
+        },
+        {
+            "conf": 1.0,
+            "end": 11.91,
+            "start": 11.79,
+            "word": "of",
+            "stoptime": 0.0,
+            "speak_time": 0.120000000000001
+        },
+        {
+            "conf": 0.513983,
+            "end": 12.06,
+            "start": 11.91,
+            "word": "our",
+            "stoptime": 0.0,
+            "speak_time": 0.15000000000000036
+        },
+        {
+            "conf": 1.0,
+            "end": 12.78,
+            "start": 12.06,
+            "word": "prospectus",
+            "stoptime": 0.6600000000000001,
+            "speak_time": 0.7199999999999989
+        },
+        {
+            "conf": 1.0,
+            "end": 13.59,
+            "start": 13.44,
+            "word": "Oh",
+            "stoptime": 0.0,
+            "speak_time": 0.15000000000000036
+        },
+        {
+            "conf": 1.0,
+            "end": 13.89,
+            "start": 13.59,
+            "word": "that's",
+            "stoptime": 0.0,
+            "speak_time": 0.3000000000000007
+        },
+        {
+            "conf": 0.726904,
+            "end": 14.37,
+            "start": 13.89,
+            "word": "okay",
+            "stoptime": 0.15000000000000036,
+            "speak_time": 0.47999999999999865
+        },
+        {
+            "conf": 1.0,
+            "end": 14.7,
+            "start": 14.52,
+            "word": "I",
+            "stoptime": 0.0,
+            "speak_time": 0.17999999999999972
+        },
+        {
+            "conf": 1.0,
+            "end": 15.03,
+            "start": 14.7,
+            "word": "already",
+            "stoptime": 0.0,
+            "speak_time": 0.33000000000000007
+        },
+        {
+            "conf": 1.0,
+            "end": 15.21,
+            "start": 15.03,
+            "word": "have",
+            "stoptime": 0.0,
+            "speak_time": 0.1800000000000015
+        },
+        {
+            "conf": 0.882676,
+            "end": 15.42,
+            "start": 15.21,
+            "word": "one",
+            "stoptime": 0.0,
+            "speak_time": 0.20999999999999908
+        },
+        {
+            "conf": 1.0,
+            "end": 15.78,
+            "start": 15.42,
+            "word": "here",
+            "stoptime": 0.8699999999999992,
+            "speak_time": 0.35999999999999943
+        },
+        {
+            "conf": 1.0,
+            "end": 16.83,
+            "start": 16.65,
+            "word": "I've",
+            "stoptime": 0.0,
+            "speak_time": 0.17999999999999972
+        },
+        {
+            "conf": 1.0,
+            "end": 17.1,
+            "start": 16.83,
+            "word": "been",
+            "stoptime": 0.0,
+            "speak_time": 0.2700000000000031
+        },
+        {
+            "conf": 1.0,
+            "end": 17.76,
+            "start": 17.1,
+            "word": "researching",
+            "stoptime": 0.0,
+            "speak_time": 0.6600000000000001
+        },
+        {
+            "conf": 1.0,
+            "end": 17.910778,
+            "start": 17.76,
+            "word": "the",
+            "stoptime": 0.0,
+            "speak_time": 0.15077799999999897
+        },
+        {
+            "conf": 0.710954,
+            "end": 18.028949,
+            "start": 17.910778,
+            "word": "and",
+            "stoptime": 0.0,
+            "speak_time": 0.11817100000000025
+        },
+        {
+            "conf": 0.640627,
+            "end": 18.213234,
+            "start": 18.028949,
+            "word": "be",
+            "stoptime": 0.0,
+            "speak_time": 0.18428499999999914
+        },
+        {
+            "conf": 0.66187,
+            "end": 18.3,
+            "start": 18.213234,
+            "word": "a",
+            "stoptime": 0.01481499999999869,
+            "speak_time": 0.08676600000000079
+        },
+        {
+            "conf": 1.0,
+            "end": 18.84,
+            "start": 18.314815,
+            "word": "courses",
+            "stoptime": 0.0,
+            "speak_time": 0.5251850000000005
+        },
+        {
+            "conf": 1.0,
+            "end": 18.93,
+            "start": 18.84,
+            "word": "in",
+            "stoptime": 0.0,
+            "speak_time": 0.08999999999999986
+        },
+        {
+            "conf": 1.0,
+            "end": 19.02,
+            "start": 18.93,
+            "word": "the",
+            "stoptime": 0.0,
+            "speak_time": 0.08999999999999986
+        },
+        {
+            "conf": 1.0,
+            "end": 19.38,
+            "start": 19.02,
+            "word": "local",
+            "stoptime": 0.0,
+            "speak_time": 0.35999999999999943
+        },
+        {
+            "conf": 0.719409,
+            "end": 19.83,
+            "start": 19.38,
+            "word": "area",
+            "stoptime": 0.020700000000001495,
+            "speak_time": 0.4499999999999993
+        },
+        {
+            "conf": 0.566742,
+            "end": 20.13,
+            "start": 19.8507,
+            "word": "sale",
+            "speak_time": 0.2792999999999992
+        }
+    ],
+    "text": "Haha. I am interested in and railing in your m b a program, could you give me some information please. Of course. I'll take a few details first of all and I'll give you a copy of our prospectus. Oh that's okay I already have one here. I've been researching the and be a courses in the local area sale. ",
+    "directory": "/content/recording1.wav",
+    "stop_time": 4.075982000000001,
+    "speaking_time": 15.844017999999998,
+    "filler": {},
+    "hedging": {
+        "could": [
+            13
+        ],
+        "some": [
+            17
+        ],
+        "few": [
+            25
+        ]
+    },
+    "articulation": 0.7,
+    "repetition": {},
+    "words_per_minutes": 180.72289156626508,
+    "average_speaking_time": 0.2640669666666666,
+    "average_stop_time": 0.06908444067796611,
+    "sentences": {
+        "1": {
+            "text": "Haha. ",
+            "end": 0.72,
+            "suggestion": []
+        },
+        "2": {
+            "text": "I am interested in and railing in your m b a program, could you give me some information please. ",
+            "end": 7.14,
+            "suggestion": []
+        },
+        "3": {
+            "text": "Of course. ",
+            "end": 8.28,
+            "suggestion": []
+        },
+        "4": {
+            "text": "I'll take a few details first of all and I'll give you a copy of our prospectus. ",
+            "end": 12.78,
+            "suggestion": [
+                {
+                    "start": 24,
+                    "end": 36,
+                    "replacements": [
+                        "first"
+                    ],
+                    "source": "REDUNDANCY/FIRST_OF_ALL/0",
+                    "message": "Often, this adverbial phrase is redundant. Consider using first."
+                }
+            ]
+        },
+        "5": {
+            "text": "Oh that's okay I already have one here. ",
+            "end": 15.78,
+            "suggestion": [
+                {
+                    "start": 0,
+                    "end": 2,
+                    "replacements": [
+                        "Oh,",
+                        "Oh!",
+                        "Oh?",
+                        "Oh."
+                    ],
+                    "source": "PUNCTUATION/INTERJECTIONS_PUNCTUATION/0",
+                    "message": "Interjections are usually punctuated."
+                }
+            ]
+        },
+        "6": {
+            "text": "I've been researching the and be a courses in the local area sale. ",
+            "end": 19.83,
+            "suggestion": []
+        }
+    },
+    "paragraphs": [
+        "Haha. I am interested in and railing in your m b a program, could you give me some information please. Of course. I'll take a few details first of all and I'll give you a copy of our prospectus. Oh that's okay I already have one here. I've been researching the and be a courses in the local area sale. "
+    ],
+    "keys_word": [
+        [
+            "courses in",
+            0.4827
+        ],
+        [
+            "courses",
+            0.4623
+        ],
+        [
+            "be courses",
+            0.4086
+        ],
+        [
+            "prospectus",
+            0.3816
+        ],
+        [
+            "railing in",
+            0.3687
+        ]
+    ]
+}
