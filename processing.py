@@ -240,7 +240,6 @@ def adding_comma_and_split_senteces_with_model(res,df):
         sen_length+= 1
         if position[i]==2.0:
             sentence += res['result'][i]['word']+ '. '
-            print(sentence)
             sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
             res['text'] += sentence
             sentence = ''
@@ -264,9 +263,7 @@ def question_mark_check(res):
         sentence = res['sentences'][i+1]['text']
         for word in question_word : 
             if word in sentence.lower() : 
-                print(sentence)
                 sentence = sentence.replace('.','?')
-                print(sentence)
                 break 
         for word in question_word_begin : 
             if word in sentence: 
@@ -427,7 +424,7 @@ with open('data/sample7.json') as json_file:
 
 test = text_analysis_2(test)
 #display(test)
-with open('output_sample2.json','w') as f :
+with open('output_sample3.json','w') as f :
     f.write(json.dumps(test,indent=4))
 t2 = time.time()
 print('total time: ',t2-t1)
