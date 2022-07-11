@@ -33,20 +33,18 @@ def preprocess(res):
         b['word'] = a
     return res
 
-def check_duplication_in_list(word_list):
+def check_duplication_in_list(word_list,length):
     # find duplication in a list and return a dictionary of the duplicated words and
     # their positions
-    duplicate_list = {}
-    n = len(word_list)
-    for word in set(word_list):
-        if word_list.count(word)>1 :
-            duplicate_list[word] = []
+    repeted_word = {}
+    for i in range(len(word_list)-length):
+        if word_list[i] == word_list[i+length]:
+            if word_list[i] in repeted_word.keys():
+                repeted_word[word_list[i]].append(i)
+            else:
+                repeted_word[word_list[i]]= [i]
 
-    for i in range(n):
-        if word_list[i] in duplicate_list.keys() :
-            duplicate_list[word_list[i]].append(i)
-
-    return duplicate_list
+    return repeted_word
 
 def find_filler_and_hedging(res):
     # find filler and hedging word in text
@@ -81,14 +79,14 @@ def repetition (res):
                 repeted_word[word_list[i]]= [i]
 
     # bigram and trigram
-    # _2gram = [' '.join(e) for e in ngrams(word_list, 2)]
-    # _3gram = [' '.join(e) for e in ngrams(word_list, 3)]
+    _2gram = [' '.join(e) for e in ngrams(word_list, 2)]
+    _3gram = [' '.join(e) for e in ngrams(word_list, 3)]
 
-    # _2gram_duplicate = check_duplication_in_list(_2gram)
-    # _3gram_duplicate = check_duplication_in_list(_3gram)
+    _2gram_duplicate = check_duplication_in_list(_2gram,2)
+    _3gram_duplicate = check_duplication_in_list(_3gram,3)
 
-    # repeted_word.update(_2gram_duplicate)
-    # repeted_word.update(_3gram_duplicate)
+    repeted_word.update(_2gram_duplicate)
+    repeted_word.update(_3gram_duplicate)
 
     res['repetition'] = repeted_word
 
@@ -158,7 +156,7 @@ def spliting_sentences(res):
 
     sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
 
-    res['sentences'] = sentences;
+    res['sentences'] = sentences
     return res
 
 def create_data_frame(res):
@@ -214,7 +212,7 @@ def split_senteces_with_model(res,df):
 
     sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
 
-    res['sentences'] = sentences;
+    res['sentences'] = sentences
     return res
 
 
@@ -224,7 +222,8 @@ def adding_comma_and_split_senteces_with_model(res,df):
         model = pickle.load(f)
 
     x_col = ['wordlen','speak_time','stop_time']
-
+    if res['words_per_minutes']<150 : 
+        df['stop_time'] = df['stop_time']*res['words_per_minutes']/150
     x_test = df[x_col].to_numpy()
 
     position = model.predict(x_test)
@@ -255,24 +254,48 @@ def adding_comma_and_split_senteces_with_model(res,df):
     res['text'] += sentence
     sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
 
-    res['sentences'] = sentences;
+    res['sentences'] = sentences
     return res
+
+def question_mark_check(res): 
+    question_word = ['what','when','where','who','how','why']
+    question_word_begin = ['Would','Will','Can','Could','Should']
+    for i in range(len(res['sentences'])): 
+        sentence = res['sentences'][i+1]['text']
+        for word in question_word : 
+            if word in sentence.lower() : 
+                print(sentence)
+                sentence = sentence.replace('.','?')
+                print(sentence)
+                break 
+        for word in question_word_begin : 
+            if word in sentence: 
+                sentence = sentence.replace('.','?')
+                break 
+        res['sentences'][i+1]['text'] = sentence 
+    return res 
+
+
 
 def grammar_check(res):
     #check for grammar error and suggest the solution
     tokenizer = Tokenizer.load("en")
     rules = Rules.load("en", tokenizer)
-    suggests = rules.suggest(res['text'])
-    res['suggestion'] = []
-    for s in suggests:
-        suggestion = {
-            'start' : s.start,
-            'end'   : s.end ,
-            'replacements' : s.replacements,
-            'source' : s.source ,
-            'message': s.message
-        }
-        res['suggestion'].append(suggestion)
+    
+    for i in range(len(res['sentences'])) :
+        res['sentences'][i+1]['suggestion'] = []
+        sentence = res['sentences'][i+1]['text'] 
+        suggests = rules.suggest(sentence)
+        for s in suggests:
+            suggestion = {
+                'start' : s.start,
+                'end'   : s.end ,
+                'replacements' : s.replacements,
+                'source' : s.source ,
+                'message': s.message
+            }
+            res['sentences'][i+1]['suggestion'].append(suggestion)
+    
     return res
 
 
@@ -384,6 +407,7 @@ def text_analysis_2 (test):
     test = word_speed(test)
     df = create_data_frame(test)
     test = adding_comma_and_split_senteces_with_model(test,df)
+    test = question_mark_check(test)
     test = split_paragraph(test)
     test = grammar_check(test)
     test = get_key_word(test)
@@ -397,13 +421,13 @@ with open('model_predict_comma_and_period','rb') as f :
 
 
 
-with open('data/sample2.json') as json_file:
+with open('data/sample7.json') as json_file:
     test = json.load(json_file)
 
 
 test = text_analysis_2(test)
 #display(test)
-with open('output_sample.json','w') as f :
+with open('output_sample2.json','w') as f :
     f.write(json.dumps(test,indent=4))
 t2 = time.time()
 print('total time: ',t2-t1)
