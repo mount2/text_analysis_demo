@@ -4,7 +4,7 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
 from fastpunct import FastPunct
-import pandas as pd 
+import pandas as pd
 #stop_words = stopwords.words('english')
 import json
 import pickle
@@ -18,61 +18,61 @@ f = open(r'hedging.txt','r')
 hedging = [word.strip('\n') for word in list(f)]
 
 
-filler_words = ['well', "hmm", "Um", "er", "uh", "like", "actually", "basically", 
-                "seriously", "you see", "you know", "I mean", "you know what I mean", 
-                "at the end of the day", "believe me", "I guess", "I suppose", 
+filler_words = ['well', "hmm", "Um", "er", "uh", "like", "actually", "basically",
+                "seriously", "you see", "you know", "I mean", "you know what I mean",
+                "at the end of the day", "believe me", "I guess", "I suppose",
                 "or something", "Okay", "so", "Right", "mhm", "uh", "huh"]
 
 def preprocess(res):
-    #change i to I 
+    #change i to I
     pattern = r'( i((?=\s)|(?=\')))'
     text = re.sub(pattern,' I',res['text'])
     res['text'] = text
     words = text.split(' ')
-    for a,b in zip(words,res['result']): 
+    for a,b in zip(words,res['result']):
         b['word'] = a
     return res
 
-def check_duplication_in_list(word_list): 
-    # find duplication in a list and return a dictionary of the duplicated words and 
+def check_duplication_in_list(word_list):
+    # find duplication in a list and return a dictionary of the duplicated words and
     # their positions
     duplicate_list = {}
     n = len(word_list)
     for word in set(word_list):
-        if word_list.count(word)>1 : 
+        if word_list.count(word)>1 :
             duplicate_list[word] = []
-    
-    for i in range(n): 
-        if word_list[i] in duplicate_list.keys() : 
+
+    for i in range(n):
+        if word_list[i] in duplicate_list.keys() :
             duplicate_list[word_list[i]].append(i)
-    
+
     return duplicate_list
 
-def find_filler_and_hedging(res): 
-    # find filler and hedging word in text 
+def find_filler_and_hedging(res):
+    # find filler and hedging word in text
     res['filler'] = {}
     res['hedging'] = {}
-    for i in range(len(res['result'])): 
-        if res['result'][i]['word'] in filler_words: 
+    for i in range(len(res['result'])):
+        if res['result'][i]['word'] in filler_words:
             if res['result'][i]['word'] in res['filler'].keys():
                 res['filler'][res['result'][i]['word']].append(i)
-            else: 
+            else:
                 res['filler'][res['result'][i]['word']] = [i]
-        if res['result'][i]['word'] in hedging: 
+        if res['result'][i]['word'] in hedging:
             if res['result'][i]['word'] in res['hedging'].keys():
                 res['hedging'][res['result'][i]['word']].append(i)
-            else: 
+            else:
                 res['hedging'][res['result'][i]['word']] = [i]
-    return res 
+    return res
 
-def repetition (res): 
-    # find word that repeted in the text 
-    # conditions: 
+def repetition (res):
+    # find word that repeted in the text
+    # conditions:
     # 2 dupicate words sit next to each other
-    # bigrams and trigrams appear in the whole speech more than once. 
+    # bigrams and trigrams appear in the whole speech more than once.
     word_list = res['text'].split(' ')
     repeted_word = {}
-    # find repeted word next to each other 
+    # find repeted word next to each other
     for i in range(len(word_list)-1):
         if word_list[i] == word_list[i+1]:
             if word_list[i] in repeted_word.keys():
@@ -80,162 +80,163 @@ def repetition (res):
             else:
                 repeted_word[word_list[i]]= [i]
 
-    # bigram and trigram 
-    _2gram = [' '.join(e) for e in ngrams(word_list, 2)]
-    _3gram = [' '.join(e) for e in ngrams(word_list, 3)]
+    # bigram and trigram
+    # _2gram = [' '.join(e) for e in ngrams(word_list, 2)]
+    # _3gram = [' '.join(e) for e in ngrams(word_list, 3)]
 
-    _2gram_duplicate = check_duplication_in_list(_2gram)
-    _3gram_duplicate = check_duplication_in_list(_3gram)
+    # _2gram_duplicate = check_duplication_in_list(_2gram)
+    # _3gram_duplicate = check_duplication_in_list(_3gram)
 
-    repeted_word.update(_2gram_duplicate)
-    repeted_word.update(_3gram_duplicate)
+    # repeted_word.update(_2gram_duplicate)
+    # repeted_word.update(_3gram_duplicate)
 
     res['repetition'] = repeted_word
 
     return res
 
-def display(res): 
-    # print dictionary in good format  
+def display(res):
+    # print dictionary in good format
     json_obj = json.dumps(res,indent=4)
     print(json_obj)
-    return 
+    return
 
-def speaking_duration(res): 
-    # find speaking and stopping time 
-    # add a new key for each word in res['result'] as 'stoptime' 
+def speaking_duration(res):
+    # find speaking and stopping time
+    # add a new key for each word in res['result'] as 'stoptime'
 
     stoptime = []
     result = res['result']
     speaking_time = -res['result'][-1]['start'] + res['result'][-1]['end']
-    for i in range(len(result)-1): 
+    for i in range(len(result)-1):
         res['result'][i]['stoptime'] = res['result'][i+1]['start'] - res['result'][i]['end']
         stoptime.append(res['result'][i+1]['start'] - res['result'][i]['end'])
         speaking_time+= res['result'][i]['end'] -res['result'][i]['start']
 
     res['stop_time'] = sum(stoptime)
     res['speaking_time'] = speaking_time
-    
+
     return res
 
 def articulation(res):
-    # find articulation 
-    clear = 0 
-    unclear = 0 
-    for word in res['result'] : 
-        if word['conf'] < 1.0 : 
-            unclear += 1 
-        else: 
-            clear += 1 
+    # find articulation
+    clear = 0
+    unclear = 0
+    for word in res['result'] :
+        if word['conf'] < 1.0 :
+            unclear += 1
+        else:
+            clear += 1
     res['articulation'] = clear/len(res['result'])
-    
-    return res 
+
+    return res
 
 def word_speed(res):
-    for i in range(len(res['result'])): 
+    for i in range(len(res['result'])):
         res['result'][i]['speak_time'] = res['result'][i]['end']-res['result'][i]['start']
-    
-    res['average_speaking_time'] = res['speaking_time']/len(res['result'])
-    res['average_stop_time'] = res['stop_time'] / (len(res['result'])-1) 
-    return res 
 
-def spliting_sentences(res): 
-    #splitting senteces by simple algorithm relate to the stop time of the speaker 
+    res['words_per_minutes'] = len(res['result'])/( res['speaking_time']+res['stop_time'])*60
+    res['average_speaking_time'] = res['speaking_time']/len(res['result'])
+    res['average_stop_time'] = res['stop_time'] / (len(res['result'])-1)
+    return res
+
+def spliting_sentences(res):
+    #splitting senteces by simple algorithm relate to the stop time of the speaker
     sentence = ''
     sentences = {}
     sen_num = 1
-    sen_length = 0 
-    for i in range(len(res['result'])-1): 
+    sen_length = 0
+    for i in range(len(res['result'])-1):
         sentence += res['result'][i]['word']+ ' '
         sen_length+= 1
         if res['result'][i]['stoptime']> res['average_stop_time']*6 and sen_length>=3:
-            
+
             sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
             sentence = ' '
-            sen_length = 0 
+            sen_length = 0
             sen_num += 1
     sentence += res['result'][len(res['result'])-1]['word']
-    
-    sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
-    
-    res['sentences'] = sentences; 
-    return res 
 
-def create_data_frame(res): 
-    # create data frame as a input for the model 
+    sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
+
+    res['sentences'] = sentences;
+    return res
+
+def create_data_frame(res):
+    # create data frame as a input for the model
     wordlen=[]
     word = []
     period = []
     speak_time = []
     stop_time = []
-    for i in range(len(res['result'])-1): 
+    for i in range(len(res['result'])-1):
         word.append(res['result'][i]['word'])
         wordlen.append(len(res['result'][i]['word']))
         period.append(0)
         speak_time.append(res['result'][i]['speak_time'])
         stop_time.append(res['result'][i]['stoptime'])
-    
+
     df = pd.DataFrame({
             'word': word ,
-            'wordlen': wordlen, 
+            'wordlen': wordlen,
             'speak_time' : speak_time,
             'stop_time' : stop_time,
-            'period': period 
+            'period': period
     })
-     
+
     return df
 
 
 def split_senteces_with_model(res,df):
-    with open('model_pickle','rb') as f : 
+    with open('model_pickle','rb') as f :
         model = pickle.load(f)
 
     x_col = ['wordlen','speak_time','stop_time']
 
-    x_test = df[x_col].to_numpy() 
+    x_test = df[x_col].to_numpy()
 
     position = model.predict(x_test)
 
-    #splitting senteces by simple algorithm relate to the stop time of the speaker 
+    #splitting senteces by simple algorithm relate to the stop time of the speaker
     sentence = ''
     sentences = {}
     sen_num = 1
-    sen_length = 0 
-    for i in range(len(res['result'])-1): 
+    sen_length = 0
+    for i in range(len(res['result'])-1):
         sentence += res['result'][i]['word']+ ' '
         sen_length+= 1
         if position[i]:
-            
+
             sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
             sentence = ' '
-            sen_length = 0 
+            sen_length = 0
             sen_num += 1
     sentence += res['result'][len(res['result'])-1]['word']
-    
+
     sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
-    
-    res['sentences'] = sentences; 
-    return res 
+
+    res['sentences'] = sentences;
+    return res
 
 
 def adding_comma_and_split_senteces_with_model(res,df):
     # open saved model to detect comma and period in a paragraph.
-    with open('model_predict_comma_and_period','rb') as f : 
+    with open('model_predict_comma_and_period','rb') as f :
         model = pickle.load(f)
 
     x_col = ['wordlen','speak_time','stop_time']
 
-    x_test = df[x_col].to_numpy() 
+    x_test = df[x_col].to_numpy()
 
     position = model.predict(x_test)
 
-    #splitting senteces by simple algorithm relate to the stop time of the speaker 
+    #splitting senteces by simple algorithm relate to the stop time of the speaker
     sentence = ''
     sentences = {}
     sen_num = 1
-    sen_length = 0 
+    sen_length = 0
     res['text'] = ''
-    for i in range(len(res['result'])-1): 
-        if sen_length == 0 : 
+    for i in range(len(res['result'])-1):
+        if sen_length == 0 :
             res['result'][i]['word'] = res['result'][i]['word'][0].upper() + res['result'][i]['word'][1:]
         sen_length+= 1
         if position[i]==2.0:
@@ -244,39 +245,39 @@ def adding_comma_and_split_senteces_with_model(res,df):
             sentences[sen_num]={'text':sentence, 'end' : res['result'][i]['end']}
             res['text'] += sentence
             sentence = ''
-            sen_length = 0 
+            sen_length = 0
             sen_num += 1
-        elif position[i] == 1.0 : 
+        elif position[i] == 1.0 :
             sentence += res['result'][i]['word']+ ', '
-        else : 
+        else :
             sentence += res['result'][i]['word']+ ' '
     sentence += res['result'][len(res['result'])-1]['word']+ '. '
     res['text'] += sentence
     sentences[sen_num]={'text': sentence , 'end' : res['result'][i]['end']}
-    
-    res['sentences'] = sentences; 
+
+    res['sentences'] = sentences;
     return res
-    
-def grammar_check(res): 
-    #check for grammar error and suggest the solution 
+
+def grammar_check(res):
+    #check for grammar error and suggest the solution
     tokenizer = Tokenizer.load("en")
     rules = Rules.load("en", tokenizer)
     suggests = rules.suggest(res['text'])
     res['suggestion'] = []
-    for s in suggests: 
+    for s in suggests:
         suggestion = {
             'start' : s.start,
-            'end'   : s.end , 
-            'replacements' : s.replacements, 
-            'source' : s.source , 
-            'message': s.message 
+            'end'   : s.end ,
+            'replacements' : s.replacements,
+            'source' : s.source ,
+            'message': s.message
         }
         res['suggestion'].append(suggestion)
-    return res 
+    return res
 
 
-def beautify(res): 
-    # no longer use because take too long to respond 
+def beautify(res):
+    # no longer use because take too long to respond
     sentences = []
     for i in range(len(res['sentences'])):
         sentences.append(res['sentences'][i+1]['text'])
@@ -297,10 +298,10 @@ def beautify(res):
     #print(x)
     return res
 
-def split_paragraph(res): 
+def split_paragraph(res):
     paragraph = ''
     paragraphs = []
-    time = 30 
+    time = 30
     i = 1
     print(res['stop_time']+res['speaking_time'])
     # one paragraph will not longer than 30 sec
@@ -308,24 +309,24 @@ def split_paragraph(res):
         res ['paragraphs'] = [res['text']]
         return res
 
-    while time < res['stop_time']+res['speaking_time']: 
-        while res['sentences'][i]['end'] < time : 
+    while time < res['stop_time']+res['speaking_time']:
+        while res['sentences'][i]['end'] < time :
             paragraph += res['sentences'][i]['text']
-            i += 1 
-        
+            i += 1
+
         paragraphs.append(paragraph)
         paragraph = ''
-        time += 30 
+        time += 30
     n = len(res['sentences'])+1
     for k in range(i,n):
-        paragraph += res['sentences'][k]['text'] 
+        paragraph += res['sentences'][k]['text']
     paragraphs.append(paragraph)
     res['paragraphs'] = paragraphs
-    return res 
+    return res
 
 
 
-def get_key_word(res): 
+def get_key_word(res):
     # get key words from text
     kw_model = KeyBERT()
     doc = res['text']
@@ -333,73 +334,77 @@ def get_key_word(res):
     res['keys_word'] = keywords
     return res
 
-def get_data(res): 
+def get_data(res):
     wordlen=[]
     word = []
     period = []
     speak_time = []
     stop_time = []
-    for i in range(len(res['result'])-1): 
+    for i in range(len(res['result'])-1):
         word.append(res['result'][i]['word'])
         wordlen.append(len(res['result'][i]['word']))
         period.append(0)
         speak_time.append(res['result'][i]['speak_time'])
         stop_time.append(res['result'][i]['stoptime'])
-    
+
     df = pd.DataFrame({
             'word': word ,
-            'wordlen': wordlen, 
+            'wordlen': wordlen,
             'speak_time' : speak_time,
             'stop_time' : stop_time,
-            'period': period 
+            'period': period
     })
-    df.to_csv('data3.csv',index= False) 
-    return 
+    df.to_csv('data3.csv',index= False)
+    return
 
-def text_analysis(test): 
-    # adding analysis to the input dictionary 
+def text_analysis(test):
+    # adding analysis to the input dictionary
     test = preprocess(test)
     test = speaking_duration(test)
     test = find_filler_and_hedging(test)
     test = articulation(test)
-    test= repetition(test)  
-    test = word_speed(test) 
+    test= repetition(test)
+    test = word_speed(test)
     df = create_data_frame(test)
     test = split_senteces_with_model(test,df)
     test = beautify(test)
     test = split_paragraph(test)
     test = get_key_word(test)
-    
-    return test 
+
+    return test
 
 
-def text_analysis_2 (test): 
-    # adding analysis to the input dictionary 
+def text_analysis_2 (test):
+    # adding analysis to the input dictionary
     test = preprocess(test)
     test = speaking_duration(test)
     test = find_filler_and_hedging(test)
     test = articulation(test)
-    test=  repetition(test)  
-    test = word_speed(test) 
+    test=  repetition(test)
+    test = word_speed(test)
     df = create_data_frame(test)
     test = adding_comma_and_split_senteces_with_model(test,df)
     test = split_paragraph(test)
     test = grammar_check(test)
     test = get_key_word(test)
-    
-    return test 
+
+    return test
 
 
 
-with open('model_predict_comma_and_period','rb') as f : 
+with open('model_predict_comma_and_period','rb') as f :
     model = pickle.load(f)
 
 
 
-with open('data/sample3.json') as json_file:
+with open('data/sample2.json') as json_file:
     test = json.load(json_file)
+
+
 test = text_analysis_2(test)
-#display(test['suggestion'])
+#display(test)
+with open('output_sample.json','w') as f :
+    f.write(json.dumps(test,indent=4))
 t2 = time.time()
 print('total time: ',t2-t1)
 
