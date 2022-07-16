@@ -6,3 +6,5 @@ tokenizers==0.12.1
 nlprule==0.6.4
 keybert==0.5.1
 pickle
+pandas==1.4.3
+transformers==4.20.1

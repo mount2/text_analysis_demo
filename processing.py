@@ -11,6 +11,8 @@ import pickle
 import time
 from keybert import KeyBERT
 from nlprule import Tokenizer, Rules
+from transformers import pipeline
+
 
 
 t1 = time.time()
@@ -295,6 +297,11 @@ def grammar_check(res):
     
     return res
 
+def merge_text(res): 
+    res['text'] = ''
+    for sen_num in res['sentences'].keys(): 
+        res['text'] += res['sentences'][sen_num]['text']
+    return res 
 
 def beautify(res):
     # no longer use because take too long to respond
@@ -317,6 +324,15 @@ def beautify(res):
 
     #print(x)
     return res
+
+def get_emotion(res): 
+    classifier = pipeline("text-classification",model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True)
+    prediction = classifier(res['text'])
+    emotions = {}
+    for emotion in prediction: 
+        emotions[emotion['label']] = emotion['score']
+    res['emotions'] = emotions 
+    return res  
 
 def split_paragraph(res):
     paragraph = ''
@@ -405,6 +421,8 @@ def text_analysis_2 (test):
     df = create_data_frame(test)
     test = adding_comma_and_split_senteces_with_model(test,df)
     test = question_mark_check(test)
+    test = merge_text(test)
+    test = get_emotion(test)
     test = split_paragraph(test)
     test = grammar_check(test)
     test = get_key_word(test)
@@ -418,13 +436,13 @@ with open('model_predict_comma_and_period','rb') as f :
 
 
 
-with open('data/sample7.json') as json_file:
+with open('data/sample8.json') as json_file:
     test = json.load(json_file)
 
 
 test = text_analysis_2(test)
 #display(test)
-with open('output_sample3.json','w') as f :
+with open('output_sample4.json','w') as f :
     f.write(json.dumps(test,indent=4))
 t2 = time.time()
 print('total time: ',t2-t1)
