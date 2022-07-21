@@ -23,7 +23,7 @@ hedging = [word.strip('\n') for word in list(f)]
 filler_words = ['well', "hmm", "Um", "er", "uh", "like", "actually", "basically",
                 "seriously", "you see", "you know", "I mean", "you know what I mean",
                 "at the end of the day", "believe me", "I guess", "I suppose",
-                "or something", "Okay", "so", "Right", "mhm", "uh", "huh"]
+                "or something", "Okay", "so", "Right", "mhm", "uh", "huh",'ah']
 
 def preprocess(res):
     #change i to I
