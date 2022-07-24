@@ -383,7 +383,7 @@ def repetition (res):
 
     repeted_word.update(_2gram_duplicate)
     repeted_word.update(_3gram_duplicate)
-
+    res['frequency'] = freq 
     res['repetition'] = repeted_word
 
     return res
