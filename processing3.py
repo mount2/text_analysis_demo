@@ -416,10 +416,13 @@ def speaking_duration(res):
         speaking_time+= res['result'][i]['end'] -res['result'][i]['start']
     res['stop_time'] = sum(stoptime)
     res['speaking_time'] = speaking_time
+    pausing = []
     for i in range(len(result)-1 ): 
         if res['result'][i]['stoptime'] > (res['stop_time']/(len(result)-1 )*1.5+1.5) :
             res['result'][i]['word']+= ' ...'
+            pausing.append(res['result'][i]['stoptime'])
     res = merge_text(res)
+    res['pausing'] = pausing
     return res
 
 def articulation(res):
